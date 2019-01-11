@@ -7,7 +7,7 @@ And so with this site we can have a personal page to create projects, share and 
 
 To develop CodeUs we used Flask python framework server-side and Javascript client-side. In the subdirectory "websocket" there is the core of the project that include the part of CodeUs to write in real time character after character the text. To create this we used the Socket.IO.
 
-**Develpment**
+**Development**
 
 The project was developed on Linux 64bit 
 
