@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block head%}
+    <title>Register</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style_reg.css')}}" type="text/css">
+{% endblock %}
+
+{% block body %}
+    <div>
+        <ul>
+            <li><a href="{{url_for('index')}}">Home</a></li>
+            <li><a class = 'selected' href="{{url_for('protected')}}">Dashboard</a></li>
+            <li><a href="#edit">Amici</a></li>
+            <button class = 'btn logout' onclick="window.location.href='{{url_for('logout')}}'">Logout</button>
+        </ul>
+    </div>
+
+    <div class = 'box'>
+        <logo>
+            Modifica <br>
+            Nome: {{user}}<br>
+        </logo>
+        <form method="POST">
+            <input type = "password" name = "password1" placeholder = "password"><br>
+            <input type = "password" name = "password2" placeholder = "ripeti la password"><br>
+            <input type = "submit" value = "Modifica">
+        </form>
+        <button class = 'btn'onclick="window.location.href='{{url_for('protected')}}'">Annulla</button>
+    </div>
+
+{% endblock %}

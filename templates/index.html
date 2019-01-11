@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+{% block head%}
+    <title>CodeUs</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style_main.css')}}" type="text/css">
+{% endblock %}
+
+{% block body %}
+    <div>
+        <ul>
+            <li><a class = 'selected' href="{{url_for('index')}}">Home</a></li>
+            <li><a href="{{url_for('info')}}">Info</a></li>
+            <li><a href="{{url_for('contact')}}">Contattaci</a></li>
+        </ul>
+    </div>
+
+    <div class='container'>
+        <logo>CodeUs &lt/&gt</logo><br><br>
+        <block>Come è semplice programmare e modificare codice in tempo reale con i propri colleghi.</block><br><br>
+        <form method="POST">
+            <input type = "text" name = "username" placeholder = "username"><br>
+            <input type = "password" name = "password" placeholder = "password"><br>
+            <input type = "submit" value = "Login">
+        </form>
+        <button class = 'btn'onclick="window.location.href='{{url_for('register')}}'">Registrati</button>
+    </div>
+
+    <div class='back'>
+        <div class = "info">
+            <img class = 'icon' src="https://img.icons8.com/color/50/000000/code.png"><br>
+            Programma con i tuoi colleghi.<br>
+            <img class = 'icon' src="https://img.icons8.com/color/50/000000/cloud-storage.png"><br>
+            Archivia i tuoi progetti.<br>
+            <img class = 'icon' src="https://img.icons8.com/office/40/000000/groups.png"><br>
+            Crea un Team.<br>
+        </div>
+    </div>
+{% endblock %}

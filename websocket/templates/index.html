@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <link rel = 'stylesheet' type = 'text/css' href="{{url_for('static',filename='style.css')}}"></link>
+  </head>
+  <body>
+    <script type="text/javascript">
+       $(document).ready(function(){
+
+            var socket = io.connect("http://93.41.133.88:5000");
+
+            socket.on('connect', function(){
+              socket.send(-310);
+            });
+
+            socket.on('message', function(msg){
+              if(msg == -310){
+                document.getElementById('text').innerHTML = 'Nuovo utente connesso'
+              }else{
+                $('#myarea').val(msg);
+                writeNumbers('count', countLine('myarea'));
+                scrollBottom('count', 'myarea');
+              }
+            });
+
+            $('#myarea').on('input', function(){
+              socket.send($('#myarea').val());
+              writeNumbers('count', countLine('myarea'));
+              scrollBottom('count');
+            });
+
+            function enableTab(id) {
+              var el = document.getElementById(id);
+              el.onkeydown = function(e) {
+                  if (e.keyCode === 9) { // tab was pressed
+
+                      // get caret position/selection
+                      var val = this.value,
+                          start = this.selectionStart,
+                          end = this.selectionEnd;
+
+                      // set textarea value to: text before caret + tab + text after caret
+                      this.value = val.substring(0, start) + '\t' + val.substring(end);
+
+                      // put caret at right position again
+                      this.selectionStart = this.selectionEnd = start + 1;
+
+                      // prevent the focus lose
+                      return false;
+                    }
+                };
+            }
+
+            function countLine(element) {
+              var text = document.getElementById(element).value;
+              var lines = text.split("\n");
+              var count = lines.length;
+              //document.getElementById('text').innerHTML = count;
+
+              return count;
+            }
+
+            function writeNumbers(element, n){
+              var x = 0;
+              for(var i=1; i<n; i++){
+                x += '\n' + i;
+              }       
+              document.getElementById(element).value = x;       
+            }
+
+            function scrollBottom(element1, element2){
+              var countarea = document.getElementById(element1);
+              var textarea = document.getElementById(element2);
+              //textarea.scrollTop = textarea.scrollHeight;
+              countarea.scrollTop = textarea.scrollTop;
+              countarea.scrollHeight = textarea.scrollHeight;
+            }
+
+            enableTab('myarea');
+
+       });
+
+    </script>
+
+    <div class = 'box'>
+      <textarea readonly class = 'count' id = 'count'></textarea>
+      <textarea spellcheck='false' id = "myarea"></textarea>
+    </div>
+    <p id = 'text'></p>
+
+  </body>
+</html>

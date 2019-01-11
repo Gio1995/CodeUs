@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block head%}
+    <title>Info</title>
+{% endblock %}
+
+{% block body %}
+    <div>
+        <ul>
+            <li><a href="{{url_for('index')}}">Home</a></li>
+            <li><a class = 'selected' href="{{url_for('info')}}">Info</a></li>
+            <li><a href="{{url_for('contact')}}">Contattaci</a></li>
+        </ul>
+    </div>
+
+{% endblock %}
