@@ -4,18 +4,19 @@ import datetime
 from flask_pymongo import PyMongo
 from flask_mail import Mail, Message
 import hashlib
-from flask 
+from flask_socketio import SocketIO, send, join_room, leave_room
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+socketio = SocketIO(app, async_mode='eventlet')
 
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/CodeUs'
 mongo = PyMongo(app)
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = mail
-app.config['MAIL_PASSWORD'] = password
+app.config['MAIL_USERNAME'] = 'gioiac1995@gmail.com'
+app.config['MAIL_PASSWORD'] = 'natoanapoli'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
@@ -25,7 +26,7 @@ mail = Mail(app)
 def index():
     if request.method == 'POST':
         session.pop('user', None)
-        u = mongo.db.users.find_one({"user" : request.form['username'], "password" : hashlib.sha256(request.form['password']).hexdigest()})
+        u = mongo.db.users.find_one({"user" : request.form['username'], "password" : hashlib.sha256((request.form['password']).encode('utf-8')).hexdigest()})
         if u:
             session['user'] = request.form['username']
             return redirect(url_for('protected'))
@@ -47,9 +48,9 @@ def register():
         u = mongo.db.users.find_one({"user" : request.form['username']}) or mongo.db.users.find_one({"email" : request.form['email']})
         if not u:
             if request.form['password1'] == request.form['password2']:
-                mongo.db.users.insert({'user' : request.form['username'], 'email' : request.form['email'], 'password' : hashlib.sha256(request.form['password1']).hexdigest()})
+                mongo.db.users.insert({'user' : request.form['username'], 'email' : request.form['email'], 'password' : hashlib.sha256((request.form['password1']).encode('utf-8')).hexdigest()})
                 session['user'] = request.form['username']
-                msg = Message('Hello', sender = mail, recipients = [request.form['email']])
+                msg = Message('Hello', sender = 'gioiac1995@gmail.com', recipients = [request.form['email']])
                 msg.body = "Salve " + request.form['username'] + " grazie per esserti iscritto a CodeUs."
                 mail.send(msg)
 
@@ -88,7 +89,7 @@ def modifica():
         if request.method == 'POST':
             temp = mongo.db.users.find_one({"user" : session['user']})
             if request.form['password1'] == request.form['password2']:
-                mongo.db.users.update({'user' : session['user']}, {'user' : session['user'], 'email' : temp['email'], 'password' : hashlib.sha256(request.form['password1']).hexdigest()})
+                mongo.db.users.update({'user' : session['user']}, {'user' : session['user'], 'email' : temp['email'], 'password' : hashlib.sha256((request.form['password1']).encode('utf-8')).hexdigest()})
                 return redirect(url_for('protected'))
             else:
                 return render_template("modifica.html", user = g.user)
@@ -124,5 +125,34 @@ def logout():
     session.pop('user', None)
     return redirect(url_for('index'))
 
+@socketio.on("message")
+def text(msg):
+    send(msg, broadcast = True)
+
+#*********************gestione delle rooms***********
+@socketio.on('join')
+def on_join(data):
+    username = data['username']
+    room = data['room']
+    join_room(room)
+    send(username + ' has entered the room.', room=room)
+
+@socketio.on('leave')
+def on_leave(data):
+    username = data['username']
+    room = data['room']
+    leave_room(room)
+    send(username + ' has left the room.', room=room)
+
+#*******************rooms link******************
+@app.route('/room_link')
+def Rooms():
+    if g.user:
+        u = mongo.db.find()
+        return render_template('rooms.html', dati = u)
+    return redirect(url_for('index'))    
+
+
 if __name__ == '__main__':
-    app.run(host = '0.0.0.0', port = 5000, debug = False)
+    #app.run(host = '0.0.0.0', port = 5000, debug = False)
+    socketio.run(app, debug=True, host = '0.0.0.0')
