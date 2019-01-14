@@ -1,6 +1,6 @@
 .box{
     background-color: #82adce;
-    height: 40%;
+    height: 100%;
     border-width: 0px;
     border-radius: 15px;
     padding: 20px;
@@ -30,6 +30,35 @@
     margin-left: 200px;
     margin-top: -50px;
 }
+
+/*Inizio modifica*/
+.title_project{
+    position: relative;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.user{
+    color: rgb(37, 37, 110);
+}
+
+.project{
+    color: rgb(214, 97, 13);
+    font-size: 20px;
+}
+
+.box_project{
+    background-color: #82adce;
+    height: 100%;
+    border-width: 0px;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+/*Fine modifica*/
 
 .text_area{
     color: rgb(238, 238, 238);
