@@ -15,8 +15,8 @@ mongo = PyMongo(app)
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'gioiac1995@gmail.com'
-app.config['MAIL_PASSWORD'] = 'natoanapoli'
+app.config['MAIL_USERNAME'] = email
+app.config['MAIL_PASSWORD'] = password
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
@@ -50,7 +50,7 @@ def register():
             if request.form['password1'] == request.form['password2']:
                 mongo.db.users.insert({'user' : request.form['username'], 'email' : request.form['email'], 'password' : hashlib.sha256((request.form['password1']).encode('utf-8')).hexdigest()})
                 session['user'] = request.form['username']
-                msg = Message('Hello', sender = 'gioiac1995@gmail.com', recipients = [request.form['email']])
+                msg = Message('Hello', sender = email, recipients = [request.form['email']])
                 msg.body = "Salve " + request.form['username'] + " grazie per esserti iscritto a CodeUs."
                 mail.send(msg)
 
