@@ -148,8 +148,8 @@ def on_leave(data):
 @app.route('/room_link')
 def Rooms():
     if g.user:
-        u = mongo.db.find()
-        return render_template('rooms.html', dati = u)
+        u = mongo.db.doc.find()
+        return render_template('rooms.html', dati=u)
     return redirect(url_for('index'))    
 
 
