@@ -46,7 +46,7 @@
             <h3>Progetti: <a href="{{url_for('new_project')}}" ><img class = 'plus' border="0" src="https://img.icons8.com/ultraviolet/40/000000/plus.png" alt=""></a></h3>
           
             {% for i in  documents %}
-            <div><a class="projects">- {{i['document']}}<br></a></div>
+            <div><a class="projects" href = {{url_for('project', name = i['document'])}}>- {{i['document']}}<br></a></div>
             {% endfor %}
 
         </div>
