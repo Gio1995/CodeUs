@@ -4,6 +4,7 @@ import datetime
 from flask_pymongo import PyMongo
 from flask_mail import Mail, Message
 import hashlib
+from flask 
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -64,6 +65,7 @@ def protected():
     
     return redirect(url_for('index'))
 
+# Inizio modifica
 
 # Redirect per la comparsa dell'editor di testo
 @app.route("/protected/project=<name>")
@@ -77,6 +79,8 @@ def project(name):
         else:
             return redirect(url_for('protected'))
     return redirect(url_for('index'))
+
+# Fine modifica
 
 @app.route("/protected/modifica", methods = ['GET', 'POST'])
 def modifica():
