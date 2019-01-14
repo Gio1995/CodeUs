@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+    <title>{{user}}</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style_profile.css')}}" type="text/css">
+{% endblock %}
+
+{% block body %}
+
+    <div>
+        <ul>
+            <li><a href="{{url_for('index')}}">Home</a></li>
+            <li><a class = 'selected' href="{{url_for('protected')}}">Dashboard</a></li>
+            <li><a href="#amici">Amici</a></li>
+            <button class = 'btn logout' onclick="window.location.href='{{url_for('logout')}}'">Logout</button>
+        </ul>
+    </div>
+
+    <div class = 'box_project'>
+        <div class = 'title_project'>{{user}}: {{document}}</div>
+        <textarea></textarea>
+        <!--Cose da fare:
+            modificare la textarea in css
+            abilitare i socket.io
+            abilitare il salvataggio automatico dei progetti
+            lavorare sulle rooms
+            opzionale: lavorare sulle webrtc
+            opzionale: lavorare sulla chat
+            lavorare sulla creazione di FLASK REST API per l'app
+        -->
+    </div>
+
+{% endblock %}
