@@ -3,6 +3,32 @@
 {% block head %}
     <title>{{user}}</title>
     <link rel="stylesheet" href="{{url_for('static',filename='style_profile.css')}}" type="text/css">
+    <link rel='stylesheet' href="{{url_for('static',filename='style_textarea.css')}}" type='text/css'>
+    <script type="text/javascript">
+        function insertTab(o, e){		
+	        var kC = e.keyCode ? e.keyCode : e.charCode ? e.charCode : e.which;
+	        if (kC == 9 && !e.shiftKey && !e.ctrlKey && !e.altKey){
+		        var oS = o.scrollTop;
+		        if (o.setSelectionRange){
+		            var sS = o.selectionStart;	
+			        var sE = o.selectionEnd;
+			        o.value = o.value.substring(0, sS) + "\t" + o.value.substr(sE);
+			        o.setSelectionRange(sS + 1, sS + 1);
+			        o.focus();
+		        }
+		        else if (o.createTextRange){
+			        document.selection.createRange().text = "\t";
+			        e.returnValue = false;
+		        }
+		        o.scrollTop = oS;
+		        if (e.preventDefault){
+			        e.preventDefault();
+		        }
+		        return false;
+	        }
+	        return true;
+        }
+    </script>
 {% endblock %}
 
 {% block body %}
@@ -17,10 +43,13 @@
     </div>
 
     <div class = 'box_project'>
-        <div class = 'title_project'>{{user}}: {{document}}</div>
-        <textarea></textarea>
+        <div class = 'title_project'>
+            <div class="user">{{user}}:</div>
+            <div class="project">{{document}}</div>
+        </div>
+        <textarea id='text' spellcheck='false' onkeydown="insertTab(this, event);"></textarea>
         <!--Cose da fare:
-            modificare la textarea in css
+            modificare la textarea in css    v
             abilitare i socket.io
             abilitare il salvataggio automatico dei progetti
             lavorare sulle rooms
