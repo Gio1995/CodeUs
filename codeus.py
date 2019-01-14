@@ -13,7 +13,7 @@ mongo = PyMongo(app)
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = email
+app.config['MAIL_USERNAME'] = mail
 app.config['MAIL_PASSWORD'] = password
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
@@ -48,7 +48,7 @@ def register():
             if request.form['password1'] == request.form['password2']:
                 mongo.db.users.insert({'user' : request.form['username'], 'email' : request.form['email'], 'password' : hashlib.sha256(request.form['password1']).hexdigest()})
                 session['user'] = request.form['username']
-                msg = Message('Hello', sender = 'gioiac1995@gmail.com', recipients = [request.form['email']])
+                msg = Message('Hello', sender = mail, recipients = [request.form['email']])
                 msg.body = "Salve " + request.form['username'] + " grazie per esserti iscritto a CodeUs."
                 mail.send(msg)
 
@@ -62,6 +62,20 @@ def protected():
         documents = mongo.db.doc.find({"user" : g.user})
         return render_template('protected.html', user = g.user, documents = documents)
     
+    return redirect(url_for('index'))
+
+
+# Redirect per la comparsa dell'editor di testo
+@app.route("/protected/project=<name>")
+def project(name):
+    if g.user:
+        u = mongo.db.doc.find_one({'user':g.user, 'document':name})
+        if u:
+            info = mongo.db.doc.find_one({'user':g.user, 'document':name})
+            #print(info['content'])
+            return render_template("project.html", user = g.user, document = info['document'])
+        else:
+            return redirect(url_for('protected'))
     return redirect(url_for('index'))
 
 @app.route("/protected/modifica", methods = ['GET', 'POST'])
@@ -82,10 +96,11 @@ def modifica():
 def new_project():
     if g.user:
         if request.method == 'POST':
-            mongo.db.doc.insert({"user" : session['user'], "document" : request.form['Nome']})
-            return redirect(url_for('protected'))
+            u = mongo.db.doc.find_one({"user" : session['user'], 'document' : request.form['Nome']})
+            if not u:
+                mongo.db.doc.insert({"user" : session['user'], "document" : request.form['Nome'], "content":''})
+                return redirect(url_for('protected'))
         return render_template('new_project.html', user = g.user)
-    
     return redirect(url_for('index'))
 
 @app.before_request
