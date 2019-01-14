@@ -4,7 +4,29 @@
     <title>{{user}}</title>
     <link rel="stylesheet" href="{{url_for('static',filename='style_profile.css')}}" type="text/css">
     <link rel='stylesheet' href="{{url_for('static',filename='style_textarea.css')}}" type='text/css'>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
+        $(document).ready(function(){
+            var socket = io.connect("http://127.0.0.1:5000");
+
+            socket.on('connect', function(){
+                socket.send(-310);
+            });
+
+            socket.on('message', function(msg){
+                if(msg == -310){
+                    document.getElementById('text').innerHTML = 'Nuovo utente connesso'
+                }else{
+                    $('#text').val(msg);
+                }
+            });
+
+            $('#text').on('input', function(){
+                socket.send($('#text').val());
+            });
+        });
+
         function insertTab(o, e){		
 	        var kC = e.keyCode ? e.keyCode : e.charCode ? e.charCode : e.which;
 	        if (kC == 9 && !e.shiftKey && !e.ctrlKey && !e.altKey){
@@ -37,7 +59,7 @@
         <ul>
             <li><a href="{{url_for('index')}}">Home</a></li>
             <li><a class = 'selected' href="{{url_for('protected')}}">Dashboard</a></li>
-            <li><a href="#amici">Amici</a></li>
+            <li><a href="{{url_for('Rooms')}}">Rooms</a></li>
             <button class = 'btn logout' onclick="window.location.href='{{url_for('logout')}}'">Logout</button>
         </ul>
     </div>
@@ -50,11 +72,9 @@
         <textarea id='text' spellcheck='false' onkeydown="insertTab(this, event);"></textarea>
         <!--Cose da fare:
             modificare la textarea in css    v
-            abilitare i socket.io
+            abilitare i socket.io   v
             abilitare il salvataggio automatico dei progetti
-            lavorare sulle rooms
-            opzionale: lavorare sulle webrtc
-            opzionale: lavorare sulla chat
+            lavorare sulle rooms    
             lavorare sulla creazione di FLASK REST API per l'app
         -->
     </div>
