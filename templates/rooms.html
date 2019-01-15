@@ -4,7 +4,7 @@
     <title>{{user}}</title>
     <link rel="stylesheet" href="{{url_for('static',filename='style_profile.css')}}" type="text/css">
     <link rel='stylesheet' href="{{url_for('static',filename='style_textarea.css')}}" type='text/css'>
-
+    <link rel="stylesheet" href="{{url_for('static',filename='style_rooms.css')}}" type="text/css">
 {% endblock %}
 
 {% block body %}
@@ -16,6 +16,22 @@
             <li><a class = 'selected' href="{{url_for('Rooms')}}">Rooms</a></li>
             <button class = 'btn logout' onclick="window.location.href='{{url_for('logout')}}'">Logout</button>
         </ul>
+    </div>
+
+    <div>
+        <div class='proj'>Projects</div>
+        <div class='vert'>
+            {%for i in dati%}
+            <div>
+            <a class='testo1' href = {{url_for('link_proj', name = i['document'])}}>{{i['document']}}</a>
+                :<p>
+            </div>
+            <div class='testo2'>
+                di {{i['user']}}<p>
+                <hr>
+            </div>
+            {%endfor%}
+        </div>
     </div>
 
 {% endblock %}
