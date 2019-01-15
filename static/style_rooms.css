@@ -1,0 +1,40 @@
+.proj{
+    font-family: serif;
+    font-size: 30px;
+    font-weight: bold;
+    color: rgb(2, 63, 63);
+    /*margin-left: 25%;*/
+    background-color: #82adce;
+    border-style: solid;
+    border-color: grey;
+    border-width: 2px;
+    padding: 20px;
+    border-radius: 10px;
+    /*margin-right: 25%;*/
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.vert{
+    background-color: rgb(202, 221, 226);
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 3px;
+    border-color: rgb(100, 99, 99);
+    padding: 10px;
+}
+
+.testo1{
+    font-family: serif;
+    font-size: 22px;
+    font-weight: bold;
+    color: rgb(50, 50, 134);
+    text-decoration: none;
+}
+
+.testo2{
+    font-family: serif;
+    font-size: 16px;
+    color: rgb(0, 19, 61);
+}
