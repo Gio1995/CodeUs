@@ -15,12 +15,14 @@ mongo = PyMongo(app)
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = email
+app.config['MAIL_USERNAME'] = mail
 app.config['MAIL_PASSWORD'] = password
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
 mail = Mail(app)
+
+rooms = {}
 
 @app.route("/", methods = ['GET', 'POST'])
 def index():
@@ -50,7 +52,7 @@ def register():
             if request.form['password1'] == request.form['password2']:
                 mongo.db.users.insert({'user' : request.form['username'], 'email' : request.form['email'], 'password' : hashlib.sha256((request.form['password1']).encode('utf-8')).hexdigest()})
                 session['user'] = request.form['username']
-                msg = Message('Hello', sender = email, recipients = [request.form['email']])
+                msg = Message('Hello', sender = mail, recipients = [request.form['email']])
                 msg.body = "Salve " + request.form['username'] + " grazie per esserti iscritto a CodeUs."
                 mail.send(msg)
 
@@ -131,18 +133,19 @@ def text(msg):
 
 #*********************gestione delle rooms***********
 @socketio.on('join')
-def on_join(data):
+def join(data):
     username = data['username']
-    room = data['room']
+    room = data['project']
+    print('Stanza:' + room)
     join_room(room)
-    send(username + ' has entered the room.', room=room)
+    #send(username + ' has entered the room.', room=room)
 
-@socketio.on('leave')
-def on_leave(data):
-    username = data['username']
-    room = data['room']
-    leave_room(room)
-    send(username + ' has left the room.', room=room)
+#@socketio.on('leave')
+#def leave(data):
+#    username = data['username']
+#    room = data['room']
+#    leave_room(room)
+#    send(username + ' has left the room.', room=room)
 
 #*******************rooms link******************
 @app.route('/room_link')
@@ -150,7 +153,13 @@ def Rooms():
     if g.user:
         u = mongo.db.doc.find()
         return render_template('rooms.html', dati=u)
-    return redirect(url_for('index'))    
+    return redirect(url_for('index'))
+
+@app.route("/room_link/proj=<name>")
+def link_proj(name):
+    if g.user:
+        return render_template('join_project.html', user = g.user, document = name)
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
