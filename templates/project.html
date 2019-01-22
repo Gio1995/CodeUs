@@ -4,31 +4,28 @@
     <title>{{user}}</title>
     <link rel="stylesheet" href="{{url_for('static',filename='style_profile.css')}}" type="text/css">
     <link rel='stylesheet' href="{{url_for('static',filename='style_textarea.css')}}" type='text/css'>
+    <!--Libreria per le socket.io in javascript-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+    <!--Ajax per il caricamento di una parte della pagina-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
+    /* Quando la pagina è stata caricata esegue le seguenti funzioni */
         $(document).ready(function(){
+            /* Creazione della socket per la connessione col server */
             var socket = io.connect("http://127.0.0.1:5000");
-
+            /* Invio all'evento join il nome utente e il nome progetto */
             socket.emit('join', {username: '{{user}}', project: '{{document}}'});
-
-            socket.on('connect', function(){
-                socket.send(-310);
-            });
-
+            /* All'evento message la funzione in questione cambia il valore della textearea */
             socket.on('message', function(msg){
-                if(msg == -310){
-                    document.getElementById('text').innerHTML = 'Nuovo utente connesso'
-                }else{
                     $('#text').val(msg);
-                }
             });
-
+            /* Ogni volta che l'utente digita almeno un carattere nella textarea, esso invia il messaggio
+               in questione e il nome del progetto al server */
             $('#text').on('input', function(){
-                socket.send($('#text').val());
+                socket.emit('message', {data: $('#text').val(), room: '{{document}}'});
             });
         });
-
+        /* Funzione per l'inserimento del TAB nella textarea */
         function insertTab(o, e){		
 	        var kC = e.keyCode ? e.keyCode : e.charCode ? e.charCode : e.which;
 	        if (kC == 9 && !e.shiftKey && !e.ctrlKey && !e.altKey){
@@ -72,13 +69,6 @@
             <div class="project">{{document}}</div>
         </div>
         <textarea id='text' spellcheck='false' onkeydown="insertTab(this, event);"></textarea>
-        <!--Cose da fare:
-            modificare la textarea in css    v
-            abilitare i socket.io   v
-            abilitare il salvataggio automatico dei progetti
-            lavorare sulle rooms    
-            lavorare sulla creazione di FLASK REST API per l'app
-        -->
     </div>
 
 {% endblock %}

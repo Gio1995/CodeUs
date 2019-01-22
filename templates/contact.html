@@ -2,6 +2,7 @@
 
 {% block head%}
     <title>Info</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style_contact.css')}}" type="text/css">
 {% endblock %}
 
 {% block body %}
@@ -11,6 +12,22 @@
             <li><a href="{{url_for('info')}}">Info</a></li>
             <li><a class = 'selected' href="{{url_for('contact')}}">Contattaci</a></li>
         </ul>
+    </div>
+
+    <div class='title'>Contattaci</div>
+
+    <div class='box_social_media'>
+        <a href='#'>
+            <img src="{{url_for('static',filename='images/logofb.png')}}">
+        </a>
+
+        <a href='#'>
+            <img src="{{url_for('static',filename='images/logoinstagram.png')}}">
+        </a>
+
+        <a href='#'>
+            <img src="{{url_for('static',filename='images/twitterlogo.png')}}">
+        </a>
     </div>
 
 {% endblock %}

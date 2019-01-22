@@ -2,6 +2,7 @@
 
 {% block head%}
     <title>Info</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style_info.css')}}" type="text/css">
 {% endblock %}
 
 {% block body %}
@@ -11,6 +12,24 @@
             <li><a class = 'selected' href="{{url_for('info')}}">Info</a></li>
             <li><a href="{{url_for('contact')}}">Contattaci</a></li>
         </ul>
+    </div>
+
+    <div class='title'>&lsaquo;/&rsaquo; CodeUs</div>
+    <div class='description'>CodeUs is a project created to write code together with friends and colleagues, or for educational purposes. The idea was born from the need to write code with our friends in real time without the use of usbdrive, the cloud, or any other support to share files. And so with this site we can have a personal page to create projects, share and write and accessible in any part of the world.</div>
+    <hr>
+
+
+    <div class="box">
+        <div class='ourteam'>Our Team:</div>
+        <div class='boxmale'>
+            <img src="{{url_for('static',filename='images/male.png')}}">
+            <div class='dev'>Giotto</div>
+
+        </div>
+        <div class='boxfemale'>
+            <img src="{{url_for('static',filename='images/female.png')}}">
+            <div class='dev'>AmyGiord</div>
+        </div>
     </div>
 
 {% endblock %}

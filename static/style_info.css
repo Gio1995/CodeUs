@@ -1,0 +1,73 @@
+.box{
+    height: 500px;
+    width: 1150px;
+    padding: 50px;
+}
+
+.boxmale{
+    height: 500px;
+    width: 550px;
+    float: left;
+}
+
+.boxfemale{
+    height: 500px;
+    width: 550px;
+    float: right;
+    position: static;
+}
+
+body{
+    background-color: #21272c;
+}
+
+img{
+    width: 50%;
+    height: 300px;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.title{
+    color: rgb(97, 224, 72);
+    text-shadow: 2px 0 0 black;
+    font-size: 50px;
+    font-family: fantasy;
+    text-align: center;
+    position: static;
+    width: 1150px;
+    margin-left: 5%;
+}
+
+.description{
+    color: rgb(216, 211, 211);
+    font-family: fantasy;
+    font-size: 20px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    position: static;
+    width: 1150px;
+    margin-left: 5%;
+}
+
+hr{
+    color: rgb(216, 211, 211);
+    
+}
+
+.ourteam{
+    color: rgb(97, 224, 72);
+    text-shadow: 2px 0 0 black;
+    font-size: 40px;
+    font-family: fantasy;
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.dev{
+    color: rgb(216, 211, 211);
+    font-family: fantasy;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+}

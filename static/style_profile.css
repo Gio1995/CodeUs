@@ -1,5 +1,5 @@
 .box{
-    background-color: #82adce;
+    background-color: #21272c;
     height: 100%;
     border-width: 0px;
     border-radius: 15px;
@@ -40,16 +40,16 @@
 }
 
 .user{
-    color: rgb(37, 37, 110);
+    color: rgb(97, 224, 72);
 }
 
 .project{
-    color: rgb(214, 97, 13);
+    color: rgb(220, 230, 227);
     font-size: 20px;
 }
 
 .box_project{
-    background-color: #82adce;
+    background-color: #21272c;
     height: 100%;
     border-width: 0px;
     border-radius: 10px;
