@@ -5,3 +5,4 @@ python-socketio==2.1.2
 flask_pymongo==2.2.0
 flask_socketio==3.1.2
 flask_mail==0.9.1
+eventlet==0.24.1
